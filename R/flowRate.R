@@ -77,19 +77,19 @@ flowRate <-
     {
       if (Eq == "CW")
       {
-        valor = paste(ini, format(QoV,digits = 1,nsmall = 4), end,"Calculated by the Colebrook-White")
+        valor = paste(ini, QoV, end,"Calculated by the Colebrook-White")
       }
       else if (Eq == "HW")
       {
-        valor = paste(ini, format(QoV,digits = 1,nsmall = 4), end,"Calculated by the Hazen-Willians")
+        valor = paste(ini, QoV, end,"Calculated by the Hazen-Willians")
       }
       else if (Eq == "SJ")
       {
-        valor = paste(ini, format(QoV,digits = 1,nsmall = 4),end, "Calculated by the Swamee-Jain")
+        valor = paste(ini, QoV,end, "Calculated by the Swamee-Jain")
       }
       else if (Eq == "FL")
       {
-        valor = paste(ini, format(QoV,digits = 1,nsmall = 4), end,"Calculated by the Flamant")
+        valor = paste(ini, QoV, end,"Calculated by the Flamant")
       }
       return(valor)
     }

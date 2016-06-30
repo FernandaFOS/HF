@@ -66,6 +66,7 @@ Diameter <-
     if (Re < 2000) {
       print("laminar")
       #colocar a equacao laminar para o diametro
+
     }
     else
       0
@@ -75,19 +76,19 @@ Diameter <-
     {
       if (Eq == "CW")
       {
-        valor = paste("Diameter = ", format(D,digits=1,nsmall=4), "meters. Calculated by the Colebrook-White")
+        valor = paste("Diameter = ", D, "meters. Calculated by the Colebrook-White")
       }
       else if (Eq == "HW")
       {
-        valor = paste("Diameter = ", format(D,digits=1,nsmall=4), "meters. Calculated by the Hazen-Willians")
+        valor = paste("Diameter = ", D, "meters. Calculated by the Hazen-Willians")
       }
       else if (Eq == "SJ")
       {
-        valor = paste("Diameter = ", format(D,digits=1,nsmall=4), "meters. Calculated by the Swamee-Jain")
+        valor = paste("Diameter = ", D, "meters. Calculated by the Swamee-Jain")
       }
       else if (Eq == "FL")
       {
-        valor = paste("Diameter = ", format(D,digits=1,nsmall=4), "meters. Calculated by the Flamant")
+        valor = paste("Diameter = ", D, "meters. Calculated by the Flamant")
       }
 
       return(valor)
