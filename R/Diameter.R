@@ -24,15 +24,17 @@
 #' @export
 #'
 #' @examples
-#' Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="CW", friend=TRUE)
-#' Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="CW")
-#' Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="SJ", friend=TRUE)
-#' Diameter(J=0.197,Q=0.005,RC=140, Eq="HW", friend=TRUE)
-#' Diameter(J=0.197,Q=0.005,RC=140, Eq="HW")
+#' Diameter(J=0.197,Q=0.0000005,RC=1e-4,Eq="CW",friend=TRUE)
+#' Diameter(J=0.197,Q=0.0000005,RC=140,Eq="HW",friend=TRUE)
+#' Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="CW",friend=TRUE)
+#' Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="SJ",friend=TRUE)
+#' Diameter(J=0.197,Q=0.005,RC=140, Eq="HW",friend=TRUE)
+#' Diameter(J=0.197,Q=0.005,RC=0.000135,Eq="FL",friend=TRUE)
 
 Diameter <-
   function(J,  L = 1, Q,RC, Eq = "CW", friend = FALSE, v = 1.01e-6, g = 9.81,x1 = 0.0625)
   {
+    lam = FALSE
     J = J / L
     if (Eq == "CW")
     {
@@ -50,11 +52,14 @@ Diameter <-
       D = 1 / (x1) ^ 2
     }
     else if (Eq == "HW") {
-      D = (((10.643 * (Q ^ 1.852) * J) / ((RC ^ 1.852)))) ^ (1 / 4.871)
+      D = (((10.643 * (Q ^ 1.852)) / ((RC ^ 1.852) * J))) ^ (1 / 4.871)
     }
     else if (Eq == "SJ") {
       D = 0.66 * (RC ^ 1.25 * (L * Q ^ 2 / (g * J * L)) ^ 4.75 + v * Q ^ 9.4 *
                     (Q / (g * J * L)) ^ 5.2) ^ 0.04
+    }
+    else if (Eq == "FL") {
+      D = ((6.107 * RC * Q ^ 1.75) / (J)) ^ (1 / 4.75)
     }
 
 
@@ -64,33 +69,45 @@ Diameter <-
     Re = V * D / v
 
     if (Re < 2000) {
-      print("laminar")
-      #colocar a equacao laminar para o diametro
+      if (Eq == "HW" || Eq == "FL") {
+        pskill
+        stop(paste0(
+          "Laminar flow. Re=",Re," (< 2000). You can't use empirical equations."
+        ))
+      }
+      lam = TRUE
+      #colocar a equacao laminar para diâmetro
+      D = sqrt((v * 64 * L * V) / (2 * g))
 
     }
-    else
-      0
 
     #show the results in friendly way
     if (friend == TRUE)
     {
       if (Eq == "CW")
       {
-        valor = paste("Diameter = ", D, "meters. Calculated by the Colebrook-White")
+        valor = paste0("Diameter=", D, " meters. Calculated by the Colebrook-White.")
       }
       else if (Eq == "HW")
       {
-        valor = paste("Diameter = ", D, "meters. Calculated by the Hazen-Willians")
+        valor = paste0("Diameter=", D, " meters. Calculated by the Hazen-Willians.")
       }
       else if (Eq == "SJ")
       {
-        valor = paste("Diameter = ", D, "meters. Calculated by the Swamee-Jain")
+        valor = paste0("Diameter=", D, " meters. Calculated by the Swamee-Jain.")
       }
       else if (Eq == "FL")
       {
-        valor = paste("Diameter = ", D, "meters. Calculated by the Flamant")
+        valor = paste0("Diameter=", D, " meters. Calculated by the Flamant.")
       }
 
+      if (lam == TRUE) {
+        valor <-
+          paste0(
+            "Diameter=", D, " meters. Calculated by the Darcy-Weisbach equation for laminar flow. Re=",format(Re,digits =
+                                                                                                                4)," (<2000)."
+          )
+      }
       return(valor)
     }
     else

@@ -4,11 +4,11 @@
 \alias{flowRate}
 \title{Flow rate}
 \usage{
-flowRate(J, L = 1, D, RC, Vel = FALSE, Eq = "CW", friend = FALSE,
+flowRate(Hf, L, D, RC, Vel = FALSE, Eq = "CW", friend = FALSE,
   v = 1.01e-06, g = 9.81)
 }
 \arguments{
-\item{J}{Unitary head loss  in meters per meter or Total head loss in meters}
+\item{Hf}{Head loss  in meters per meter or Total head loss in meters}
 
 \item{L}{Length of pipe in meters. If \code{J} is unitary head loss this parameter
 is unnecessary.}
@@ -40,9 +40,12 @@ Q Flow rate in cubic meters per second or V velocity flow in meters per second
 \code{flowRate} calculate the flow rate or flow velocity for a given head loss
 }
 \examples{
-flowRate(J=0.097,D=0.005,RC=1e-4, Vel=TRUE, Eq="CW", friend=TRUE)
-flowRate(J=0.097,D=0.005,RC=1e-4, Eq="CW", friend=TRUE)
-flowRate(J=0.097,D=0.05,RC=1e-4, Eq="SJ")
-flowRate(J=0.097,D=0.005,RC=140, Eq="HW")
+flowRate(Hf=0.097,L=1,D=0.05,RC=1e-4, Vel=TRUE, Eq="CW", friend=TRUE)
+flowRate(Hf=0.097,L=1,D=0.0005,RC=1e-4, Eq="CW", friend=TRUE)
+flowRate(Hf=0.097,L=1,D=0.0005,RC=140, Eq="HW")
+flowRate(Hf=0.097,L=1,D=0.05,RC=1e-4, Eq="CW", friend=TRUE)
+flowRate(Hf=0.097,L=1,D=0.05,RC=1e-4, Eq="SJ", friend=TRUE)
+flowRate(Hf=0.097,L=1,D=0.05,RC=140, Eq="HW", friend=TRUE)
+flowRate(Hf=0.097,L=1,D=0.05,RC=0.000135, Eq="FL", friend=TRUE)
 }
 

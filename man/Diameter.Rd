@@ -41,10 +41,11 @@ D Diameter of pipe in meters
 \code{Diameter} calculates the diameter of pipes for a given head loss
 }
 \examples{
-Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="CW", friend=TRUE)
-Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="CW")
-Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="SJ", friend=TRUE)
-Diameter(J=0.197,Q=0.005,RC=140, Eq="HW", friend=TRUE)
-Diameter(J=0.197,Q=0.005,RC=140, Eq="HW")
+Diameter(J=0.197,Q=0.0000005,RC=1e-4,Eq="CW",friend=TRUE)
+Diameter(J=0.197,Q=0.0000005,RC=140,Eq="HW",friend=TRUE)
+Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="CW",friend=TRUE)
+Diameter(J=0.197,Q=0.005,RC=1e-4,Eq="SJ",friend=TRUE)
+Diameter(J=0.197,Q=0.005,RC=140, Eq="HW",friend=TRUE)
+Diameter(J=0.197,Q=0.005,RC=0.000135,Eq="FL",friend=TRUE)
 }
 

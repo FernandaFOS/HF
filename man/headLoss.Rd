@@ -39,11 +39,12 @@ Hf Head loss in meters
 methods
 }
 \examples{
+headLoss(D=0.025,Q=0.000000001,L=200,RC=0.0001,Eq="CW",friend=TRUE)
+headLoss(D=0.025,Q=0.000000001,L=200,RC=140,Eq="HW",friend=TRUE)
 headLoss(D=0.025,Q=0.001,L=200,RC=0.0001,Eq="CW",friend=TRUE)
-headLoss(D=0.025,Q=0.001,L=200,RC=0.0001,Eq="CW")
-headLoss(D=0.025,Q=0.001,L=200,RC=0.0001,Eq="SJ")
-headLoss(D=0.200,Q=0.05447,L=3200,RC=130,Eq="HW")
-headLoss(D=0.025,Q=0.001,L=200,RC=0.000135,Eq="FL")
+headLoss(D=0.025,Q=0.001,L=200,RC=0.0001,Eq="SJ",friend=TRUE)
+headLoss(D=0.200,Q=0.001,L=3200,RC=130,Eq="HW",friend=TRUE)
+headLoss(D=0.025,Q=0.001,L=200,RC=0.000135,Eq="FL",friend=TRUE)
 
 }
 

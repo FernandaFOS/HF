@@ -22,11 +22,12 @@
 #'@export
 #'
 #'@examples
+#'headLoss(D=0.025,Q=0.000000001,L=200,RC=0.0001,Eq="CW",friend=TRUE)
+#'headLoss(D=0.025,Q=0.000000001,L=200,RC=140,Eq="HW",friend=TRUE)
 #'headLoss(D=0.025,Q=0.001,L=200,RC=0.0001,Eq="CW",friend=TRUE)
-#'headLoss(D=0.025,Q=0.001,L=200,RC=0.0001,Eq="CW")
-#'headLoss(D=0.025,Q=0.001,L=200,RC=0.0001,Eq="SJ")
-#'headLoss(D=0.200,Q=0.05447,L=3200,RC=130,Eq="HW")
-#'headLoss(D=0.025,Q=0.001,L=200,RC=0.000135,Eq="FL")
+#'headLoss(D=0.025,Q=0.001,L=200,RC=0.0001,Eq="SJ",friend=TRUE)
+#'headLoss(D=0.025,Q=0.001,L=200,RC=140,Eq="HW",friend=TRUE)
+#'headLoss(D=0.025,Q=0.001,L=200,RC=0.000135,Eq="FL",friend=TRUE)
 #'
 
 
@@ -34,6 +35,7 @@
 headLoss <-
   function (D,Q,L,RC,Eq = "CW", friend = FALSE, v = 1.01e-6, g = 9.81, x1 = 0.0625)
   {
+    lam = FALSE
     A = ((pi * (D ^ 2)) / 4)
     #area
     V = Q / A
@@ -42,8 +44,15 @@ headLoss <-
     #Reynolds number
 
     if (Re < 2000)
-      #laminar regime
+      #laminar flow
     {
+      if (Eq == "HW" || Eq == "FL") {
+        pskill
+        stop(paste0(
+          "Laminar flow. Re=",Re," (< 2000). You can't use empirical equations."
+        ))
+      }
+      lam = TRUE
       f = 64 / Re
       hf = f * (L / D) * ((V ^ 2) / (2 * g))
     }
@@ -70,7 +79,7 @@ headLoss <-
       else if (Eq == "HW")
         #Hazen-Willians
       {
-        hf = (10.643 * (Q ^ 1.852) * L) / ((RC ^ 1.852) * (D ^ 4.871))
+        hf = (10.643 * Q ^ 1.852 * L) / (RC ^ 1.852 * (D ^ 4.871))
       }
       else if (Eq == "SJ")
         #Swamee-Jain
@@ -81,35 +90,35 @@ headLoss <-
       else if (Eq == "FL")
         #Flamant
       {
-        hf = 6.107 * RC * ((L * (Q ^ 1.75)) / (D ^ 4.75))
+        hf = (6.107 * RC * L * Q ^ 1.75) / (D ^ 4.75)
       }
     }
 
     #show the results in friendly way
     if (friend == TRUE)
     {
-      if (Re < 2000) {
-        valor = paste(
-          "Head loss = ", hf, "meters. Calculated by the Darcy-Weisbach equation for laminar flow"
+      if (lam == TRUE) {
+        valor = paste0(
+          "Head loss=", hf, " meters. Calculated by the Darcy-Weisbach equation for laminar flow."
         )
       }
       else
       {
         if (Eq == "CW")
         {
-          valor = paste("Head loss = ", hf, "meters. Calculated by the Colebrook-White")
+          valor = paste0("Head loss=", hf, " meters. Calculated by the Colebrook-White.")
         }
         else if (Eq == "HW")
         {
-          valor = paste("Head loss = ", hf, "meters. Calculated by the Hazen-Willians")
+          valor = paste0("Head loss=", hf, " meters. Calculated by the Hazen-Willians.")
         }
         else if (Eq == "SJ")
         {
-          valor = paste("Head loss = ", hf, "meters. Calculated by the Swamee-Jain")
+          valor = paste0("Head loss=", hf, " meters. Calculated by the Swamee-Jain.")
         }
         else if (Eq == "FL")
         {
-          valor = paste("Head loss = ", hf, "meters. Calculated by the Flamant")
+          valor = paste0("Head loss=", hf, " meters. Calculated by the Flamant.")
         }
       }
       return(valor)
